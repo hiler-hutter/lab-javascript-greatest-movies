@@ -116,11 +116,41 @@ function orderAlphabetically(movies) {
 
 // BONUS - Iteration 7: Time Format - Turn duration of the movies from hours to minutes 
 //next step and some things
-function turnHoursToMinutes() {}
+function turnHoursToMinutes(array){
+  return movies.map(function(movie){
+    let convertMinutes = 0;
+    if(movie.duration.includes('h')){
+      convertMinutes = convertMinutes + Number(movie.duration.slice(0, movie.duration.indexOf('h'))) * 60;
+    }
+    if(movie.duration.includes('min')){
+      convertMinutes = convertMinutes + Number(movie.duration.slice(movie.duration.indexOf(' ') + 1, movie.duration.indexOf('m')));
+    }
+        return { ...movie, duration: convertMinutes };
+
+  });
+  
+}
+
+console.log(turnHoursToMinutes(movies))
 
 // BONUS - Iteration 8: Best yearly score average - Best yearly score average
-function bestYearAvg() {}
-
+function bestYearAvg(array) {
+  if (!movies.length) return null;
+  const best = movies.reduce(function (best, movie) {
+      const average = scoreAverage(movies.filter(function (m) {
+          return m.year === movie.year
+      }));
+      if (average > best.rate || (average === best.rate && movie.year < best.year)) {
+          best.year = movie.year;
+          best.rate = average;
+      }
+      return best;
+  }, { year: null, rate: null });
+  return `The best year was ${best.year} with an average rate of ${best.rate}`;
+  }
+ 
+ console.log(bestYearAvg(movies))
+ 
 
 
 // The following is required to make unit tests work.
